@@ -29,7 +29,6 @@ def parse_input(file):
             right.append(r)
         return (left, right)
 
-
 if __name__ == '__main__':
     # Samples
     sample_input = parse_input('sample')

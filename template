@@ -16,7 +16,6 @@ def parse_input(file):
             pass
         return []
 
-
 if __name__ == '__main__':
     # Samples
     sample_input = parse_input('sample')
