@@ -14,7 +14,6 @@ def question1(puzzle):
 def question2(puzzle):
     total = 0
     left, right = puzzle
-    left.sort()
     for l in left:
         total += l * right.count(l)
     return total
