@@ -1,7 +1,6 @@
 # Day 2
 
 # Question 1
-
 def safe(nums):
     if len(nums) < 2:
         return True
@@ -18,7 +17,6 @@ def question1(puzzle):
     return len([1 for line in puzzle if safe(line)])
 
 # Question 2
-
 def remove_one(nums):
     for i, _ in enumerate(nums):
         if safe(nums[:i] + nums[i+1:]):
