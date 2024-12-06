@@ -40,8 +40,8 @@ if __name__ == '__main__':
     # Tests
     t1, ans1 = question1(sample_input), 161
     t2, ans2 = question2(sample_input), 48
-    assert t1 == ans1, t1
-    assert t2 == ans2, t2
+    assert t1 == ans1, f'S1: {t1} != {ans1}'
+    assert t2 == ans2, f'S2: {t2} != {ans2}'
 
     # Puzzle input
     puzzle_input = parse_input('puzzle-input')
