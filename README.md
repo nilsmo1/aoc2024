@@ -25,5 +25,5 @@ To use this script you need to replace the "__?__" in:
 ```sh
 curl -o puzzle-input -b 'session=?' https://adventofcode.com/2024/day/$1/input
 ```
-With the value of your own session cookie.
-This script only needs to run once per day, and therefore it should not cause any traffic issues.
+With the value of your own session cookie (which can usually be found when inspecting the Advent of Code website after loggin in).
+This script only needs to run once per day, and should therefore not cause any traffic issues.
