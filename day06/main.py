@@ -1,5 +1,7 @@
 # Day 6
 
+from copy import deepcopy
+
 # Question 1
 def get_start(puzzle):
     for i, row in enumerate(puzzle):
@@ -29,12 +31,38 @@ def question1(puzzle):
 # Question 2
 def question2(puzzle):
     total = 0
+    for i in range(len(puzzle)):
+        for j in range(len(puzzle[i])):
+            y, x = get_start(puzzle)
+            if puzzle[i][j] == '^' or puzzle[i][j] == '#':
+                continue
+            puzzle_copy = deepcopy(puzzle)
+            puzzle_copy[i][j] = '#'
+            directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+            direction = 0
+            in_bounds = lambda r, c: 0 <= r < len(puzzle_copy) and 0 <= c < len(puzzle_copy[r])
+            visited = []
+            while in_bounds(y, x):
+                visited.append((y, x, direction))
+                dy, dx = directions[direction]
+                if not in_bounds(y + dy, x + dx):
+                    break
+                if puzzle_copy[y + dy][x + dx] == '#':
+                    if visited.count((y, x, direction)) > 2:
+                        print(total)
+                        total += 1
+                        break
+                    direction += 1
+                    direction %= len(directions)
+                    continue
+                y += dy
+                x += dx
     return total
 
 # Input
 def parse_input(file):
     with open(file, 'r') as inp:
-        return [line for line in inp.read().splitlines()]
+        return [[char for char in line] for line in inp.read().splitlines()]
 
 if __name__ == '__main__':
     # Samples
@@ -42,7 +70,7 @@ if __name__ == '__main__':
 
     # Tests
     t1, ans1 = question1(sample_input), 41
-    t2, ans2 = question2(sample_input), 0
+    t2, ans2 = question2(sample_input), 6
     assert t1 == ans1, f'S1: {t1} != {ans1}'
     assert t2 == ans2, f'S2: {t2} != {ans2}'
 
