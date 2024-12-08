@@ -1,6 +1,7 @@
 # Day 6
 
 from copy import deepcopy
+from collections import defaultdict
 
 # Question 1
 def get_start(puzzle):
@@ -9,7 +10,7 @@ def get_start(puzzle):
             if char == '^':
                 return i, j
 
-def question1(puzzle):
+def get_visited(puzzle):
     y, x = get_start(puzzle)
     directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     direction = 0
@@ -26,37 +27,37 @@ def question1(puzzle):
             continue
         y += dy
         x += dx
-    return len(visited)
+    return visited
+
+def question1(puzzle):
+    return len(get_visited(puzzle))
 
 # Question 2
 def question2(puzzle):
     total = 0
-    for i in range(len(puzzle)):
-        for j in range(len(puzzle[i])):
-            y, x = get_start(puzzle)
-            if puzzle[i][j] == '^' or puzzle[i][j] == '#':
-                continue
-            puzzle_copy = deepcopy(puzzle)
-            puzzle_copy[i][j] = '#'
-            directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-            direction = 0
-            in_bounds = lambda r, c: 0 <= r < len(puzzle_copy) and 0 <= c < len(puzzle_copy[r])
-            visited = []
-            while in_bounds(y, x):
-                visited.append((y, x, direction))
-                dy, dx = directions[direction]
-                if not in_bounds(y + dy, x + dx):
+    already_visited = get_visited(puzzle)
+    directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    in_bounds = lambda r, c: 0 <= r < len(puzzle) and 0 <= c < len(puzzle[r])
+    for i, j in already_visited:
+        y, x = get_start(puzzle)
+        if puzzle[i][j] == '^' or puzzle[i][j] == '#':
+            continue
+        direction = 0
+        visited = defaultdict(int)
+        while in_bounds(y, x):
+            visited[(y, x, direction)] += 1
+            dy, dx = directions[direction]
+            if not in_bounds(y + dy, x + dx):
+                break
+            if puzzle[y + dy][x + dx] == '#' or (y + dy, x + dx) == (i, j):
+                if visited[(y, x, direction)] > 2:
+                    total += 1
                     break
-                if puzzle_copy[y + dy][x + dx] == '#':
-                    if visited.count((y, x, direction)) > 2:
-                        print(total)
-                        total += 1
-                        break
-                    direction += 1
-                    direction %= len(directions)
-                    continue
-                y += dy
-                x += dx
+                direction += 1
+                direction %= len(directions)
+                continue
+            y += dy
+            x += dx
     return total
 
 # Input
